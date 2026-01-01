@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom";
 import { Container } from "@/components/layout/container";
 import logo from "@/assets/logo-singulai.png";
-import { Twitter, Github, MessageCircle, FileText } from "lucide-react";
+import { 
+  Twitter, 
+  Github, 
+  MessageCircle, 
+  FileText,
+  Shield,
+  Globe,
+  Lock,
+  Boxes
+} from "lucide-react";
 
 const footerLinks = {
   product: [
@@ -34,6 +43,13 @@ const socialLinks = [
   { icon: Github, href: "#", label: "GitHub" },
   { icon: MessageCircle, href: "#", label: "Discord" },
   { icon: FileText, href: "#", label: "Docs" },
+];
+
+const securityBadges = [
+  { icon: Boxes, label: "Blockchain Secured" },
+  { icon: Shield, label: "Quantum Safe" },
+  { icon: Globe, label: "Web3 Protected" },
+  { icon: Lock, label: "E2E Encrypted" },
 ];
 
 export function Footer() {
@@ -134,15 +150,42 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Security Badges */}
+        <div className="py-6 border-t border-border">
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+            {securityBadges.map((badge) => (
+              <div
+                key={badge.label}
+                className="flex items-center gap-2 text-muted-foreground/60"
+              >
+                <badge.icon className="w-4 h-4" />
+                <span className="text-xs font-medium">{badge.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom Bar */}
         <div className="py-6 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              2024 SingulAI Platform. All rights reserved.
+              2024-2025 SingulAI Platform. All rights reserved.
             </p>
-            <p className="text-sm text-muted-foreground">
-              Built on Ethereum Sepolia Network
-            </p>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <span>Built on Ethereum Sepolia Network</span>
+              <span className="hidden md:inline">|</span>
+              <span>
+                Developed by{" "}
+                <a
+                  href="https://rodrigo.run"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  rodrigo.run
+                </a>
+              </span>
+            </div>
           </div>
         </div>
       </Container>
