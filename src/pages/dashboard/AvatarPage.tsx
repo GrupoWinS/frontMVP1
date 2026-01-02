@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Brain, FileText, Lock, Heart, Save, AlertTriangle, Zap, CheckCircle2, Clock } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useWallet } from "@/hooks/useWallet";
+import { useAvatarBalance } from "@/hooks/useBlockchain";
 import lauraAvatar from "@/assets/avatars/laura.png";
 import leticiaAvatar from "@/assets/avatars/leticia.png";
 import pedroAvatar from "@/assets/avatars/pedro.png";
@@ -141,6 +143,9 @@ export default function AvatarPage() {
         return null;
     }
   };
+
+  const { address } = useWallet();
+  const { data: avatarBalance } = useAvatarBalance(address);
 
   return (
     <div className="space-y-8">
@@ -341,14 +346,17 @@ export default function AvatarPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
                   <span className="text-sm text-foreground">Carteira do Avatar</span>
-                  <span className="text-xs font-mono text-green-400">0x1a2b...3c4d</span>
+                  <span className="text-xs font-mono text-green-400">{selectedAvatar?.tokenId || "-"}</span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
                   <span className="text-sm text-foreground">Carteira do Usuário</span>
-                  <span className="text-xs font-mono text-green-400">Conectada</span>
+                  <span className="text-xs font-mono text-green-400">{address ? address : "Não conectada"}</span>
                 </div>
-                <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300">
-                  ✅ Avatar com acesso total à memória dos 4 módulos. Desconecte a carteira para limpar acesso (exceto Módulo 4).
+                <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/10 border border-secondary/20">
+                  <div className="text-xs text-muted-foreground">
+                    <div>Saldo Avatar: {avatarBalance?.balance ?? "-"}</div>
+                    <div className="mt-1">✅ Avatar com acesso total à memória dos 4 módulos. Desconecte a carteira para limpar acesso (exceto Módulo 4).</div>
+                  </div>
                 </div>
               </div>
             </div>

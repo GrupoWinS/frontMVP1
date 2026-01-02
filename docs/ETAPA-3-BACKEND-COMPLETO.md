@@ -1,0 +1,139 @@
+# 📋 PONTO DE RESTAURAÇÃO - ETAPA 3 COMPLETA
+**Data:** 01/01/2026 13:30 BRT
+**Status:** ✅ CONCLUÍDO
+**Versão API:** 2.0.0
+---
+## ✅ RESUMO DA ETAPA 3
+### Backend API NestJS - 100% Funcional
+| Componente | Status | Detalhes |
+|------------|--------|----------|
+| Framework | ✅ | NestJS + TypeScript |
+| Porta | ✅ | 3004 |
+| Systemd | ✅ | Serviço persistente |
+| Swagger | ✅ | /api/docs |
+| CORS | ✅ | Habilitado |
+| Blockchain | ✅ | Sepolia conectada |
+---
+## 📡 ENDPOINTS IMPLEMENTADOS (19 rotas)
+### Blockchain Module
+GET /api/v1/blockchain/health GET /api/v1/blockchain/status GET /api/v1/blockchain/wallet/:address GET /api/v1/blockchain/sgl/info GET /api/v1/blockchain/sgl/balance/:address POST /api/v1/blockchain/sgl/transfer POST /api/v1/blockchain/sgl/mint POST /api/v1/blockchain/sgl/airdrop GET /api/v1/blockchain/avatar/balance/:address POST /api/v1/blockchain/avatar/mint
+### Staking Module
+GET /api/v1/staking/info GET /api/v1/staking/user/:address GET /api/v1/staking/leaderboard
+### TimeCapsule Module
+GET /api/v1/timecapsule/info GET /api/v1/timecapsule/user/:address GET /api/v1/timecapsule/capsule/:id
+### Legacy Module
+GET /api/v1/legacy/info GET /api/v1/legacy/user/:address GET /api/v1/legacy/legacy/:id
+---
+## 🔧 SERVIÇO SYSTEMD
+**Arquivo:** `/etc/systemd/system/singulai-api.service`
+### Comandos
+```bash
+sudo systemctl status singulai-api # Ver status
+sudo systemctl restart singulai-api # Reiniciar
+sudo systemctl stop singulai-api # Parar
+sudo systemctl start singulai-api # Iniciar
+journalctl -u singulai-api -f # Ver logs
+journalctl -u singulai-api -n 50 # Últimas 50 linhas
+```
+### Configuração do Serviço
+```ini
+[Unit]
+Description=SingulAI Blockchain API
+Documentation=https://github.com/singulai/platform
+After=network.target
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/singulai-platform/backend/api
+ExecStart=/usr/bin/node dist/main.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=3004
+[Install]
+WantedBy=multi-user.target
+```
+
+## 📁 ESTRUTURA DE ARQUIVOS
+/root/singulai-platform/backend/api/
+```
+├── dist/ # Build compilado
+│   └── main.js
+├── src/
+│   ├── main.ts # Bootstrap + Swagger
+│   ├── app.module.ts # Módulo principal
+│   ├── config/
+│   │   └── blockchain.config.ts # Config blockchain
+│   ├── blockchain/
+│   │   ├── blockchain.module.ts
+│   │   ├── blockchain.controller.ts
+│   │   └── blockchain.service.ts
+│   ├── staking/
+│   │   ├── staking.module.ts
+│   │   ├── staking.controller.ts
+│   │   └── staking.service.ts
+│   ├── timecapsule/
+│   │   ├── timecapsule.module.ts
+│   │   ├── timecapsule.controller.ts
+│   │   └── timecapsule.service.ts
+│   └── legacy/
+│     ├── legacy.module.ts
+│     ├── legacy.controller.ts
+│     └── legacy.service.ts
+```
+
+## 🔐 VARIÁVEIS DE AMBIENTE
+Arquivo: /root/singulai-platform/backend/api/.env
+```
+PORT=3004
+NODE_ENV=development
+RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+SGL_TOKEN_ADDRESS=0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1
+AVATAR_BASE_ADDRESS=0x95F531cafca627A447C0F1119B8b6aCC730163E5
+AVATAR_WALLET_LINK_ADDRESS=0x9F475e5D174577f2FB17a9D94a8093e2D8c9ED41
+DEPLOYER_PRIVATE_KEY=0x48b40349...
+WALLET_ADDRESS=0x3d3C2E249f9F94e7cfAFC5430f07223ec10AD3bb
+```
+
+## 📊 CONTRATOS INTEGRADOS
+SGLToken 0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1 ✅
+AvatarBase 0x95F531cafca627A447C0F1119B8b6aCC730163E5 ✅
+AvatarWalletLink 0x9F475e5D174577f2FB17a9D94a8093e2D8c9ED41 📋
+TimeCapsule 0x6A58aD664071d450cF7e794Dac5A13e3a1DeD172 ✅
+DigitalLegacy 0x0Ee8f5dC7E9BC9AF344eB987B8363b33E737b757 ✅
+
+## 🧪 SCRIPT DE TESTE
+```bash
+#!/bin/bash
+WALLET="0x3d3C2E249f9F94e7cfAFC5430f07223ec10AD3bb"
+BASE="http://localhost:3004/api/v1"
+echo "=== TESTE API SINGULAI ==="
+curl -s "$BASE/blockchain/health" | jq .
+curl -s "$BASE/blockchain/status" | jq .
+curl -s "$BASE/blockchain/sgl/info" | jq .
+curl -s "$BASE/staking/info" | jq .
+curl -s "$BASE/timecapsule/info" | jq .
+curl -s "$BASE/legacy/info" | jq .
+```
+
+## 🔄 RESTAURAÇÃO RÁPIDA
+```bash
+# 1. Verificar status
+sudo systemctl status singulai-api
+# 2. Ver logs de erro
+journalctl -u singulai-api -n 50
+# 3. Rebuild se necessário
+cd /root/singulai-platform/backend/api
+npm run build
+# 4. Reiniciar
+sudo systemctl restart singulai-api
+```
+
+## 🎯 PRÓXIMA ETAPA
+Etapa 4: Frontend Dashboard
+Next.js 14 + TypeScript
+Tailwind CSS + Shadcn/UI
+Integração wagmi/viem (Web3)
+Dashboard completo
+
+Documento criado: 01/01/2026 13:30 BRT Versão: 1.0
